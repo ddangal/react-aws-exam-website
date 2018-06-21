@@ -1,0 +1,40 @@
+.top-header, .bottom-header{
+
+}
+.top-daily {
+  border: 1px solid #eee;
+  box-shadow: 0 2px 2px #ccc;
+  width: 24%;
+  margin:1%;
+  padding: 1%;
+  height:1000px;
+  float: left;
+}
+.top-weekly{
+  border: 1px solid #eee;
+  box-shadow: 0 2px 2px #ccc;
+  width: 64%;
+  margin:1%;
+  padding: 1%;
+  height:1000px;
+  float: left;
+}
+body{
+  background-color: burlywood;
+}
+h2{
+  text-decoration: underline;
+}
+form{
+  margin:2px;
+  padding:2px;
+}
+.form_data{
+  margin: 6px;
+  padding: 4px;
+}
+form{
+  margin: 3px;
+  padding: 4px;
+  font-size: 20px;
+}
