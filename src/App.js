@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import Index from "./components/Index"
 import Question from "./components/Question"
+import Check from "./components/Check"
 
 class App extends Component {
     render() {
@@ -12,7 +13,7 @@ class App extends Component {
                         <Index/>
                     </div>
                     <div className="top-weekly">
-                        <Question/>
+                        <Check/>
                     </div>
                 </div>
 
