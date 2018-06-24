@@ -4,16 +4,16 @@
 .top-daily {
   border: 1px solid #eee;
   box-shadow: 0 2px 2px #ccc;
-  width: 24%;
+  width: 100%;
   margin:1%;
   padding: 1%;
-  height:1000px;
+  height:100px;
   float: left;
 }
 .top-weekly{
   border: 1px solid #eee;
   box-shadow: 0 2px 2px #ccc;
-  width: 64%;
+  width: 100%;
   margin:1%;
   padding: 1%;
   height:1000px;
@@ -37,4 +37,9 @@ form{
   margin: 3px;
   padding: 4px;
   font-size: 20px;
+}
+.answer{
+  margin:2%;
+  padding: 2%;
+  float: bottom;
 }
