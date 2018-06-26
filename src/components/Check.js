@@ -31,36 +31,45 @@ export default class Check extends Component {
     }
 
 
+
     render(){
 
         return(
             <div>
                 <form>
+                    <h1>Question 1: what is ....</h1>
                     <div className="input-group">
-                        <input type="checkbox" value="1" onChange={this.onChange.bind(this)} />
+                        A <input type="checkbox" value="11" onChange={this.onChange.bind(this)} />
                         <label>Answer A</label>
                     </div>
                     <div className="input-group">
-                        <input type="checkbox" value="2" onChange={this.onChange.bind(this)} />
+                        B <input type="checkbox" value="12" onChange={this.onChange.bind(this)} />
                         <label>Answer B</label>
                     </div>
                     <div className="input-group">
-                        <input type="checkbox" value="3" onChange={this.onChange.bind(this)} />
+                        C <input type="checkbox" value="13" onChange={this.onChange.bind(this)} />
                         <label>Answer C</label>
                     </div>
-                    <br/>
-                    <input onClick= { () =>
 
-                        this.state.options.map(number =>
-                        <p key={number}>item: {number}</p>
-                    )} type="button" name="click"  value="show" id=""/>
+
+                    <br/>
+                    <h1>Question 2: what is ....</h1>
+                    <div className="input-group">
+                        A <input type="checkbox" value="21" onChange={this.onChange.bind(this)} />
+                        <label>Answer A</label>
+                    </div>
+                    <div className="input-group">
+                        B <input type="checkbox" value="22" onChange={this.onChange.bind(this)} />
+                        <label>Answer B</label>
+                    </div>
+                    <div className="input-group">
+                        C <input type="checkbox" value="23" onChange={this.onChange.bind(this)} />
+                        <label>Answer C</label>
+                    </div>
+
+
                 </form>
 
-                {/*<div className="selected-items">*/}
-                    {/*{this.state.options.map(number =>*/}
-                        {/*<p key={number}>item: {number}</p>*/}
-                    {/*)}*/}
-                {/*</div>*/}
 
             </div>
         )

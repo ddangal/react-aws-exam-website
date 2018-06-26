@@ -1,105 +1,107 @@
 import React, { Component } from 'react';
-
-
-
+import axios from 'axios';
+var api = "https://d2t46sp5qi.execute-api.us-east-1.amazonaws.com/retrieve-weekly/retrieve-weekly"
 export default class Enter_daily extends Component {
     constructor() {
         super();
         this.state = {
-            data:[]
-
-        };
+            data1:[]
+        }
+        ;
     }
     componentDidMount()
     {
         this.fetchdata()
     }
 
-
-
-
-     FetchData = () =>
-    {
-
-    }
     fetchdata(){
-        fetch('https://d2t46sp5qi.execute-api.us-east-1.amazonaws.com/retrieve-weekly/retrieve-weekly').
-        then((Response) => Response.json()).
-        then((resp)=>
-        {
+        axios.get(api, {
+            params: {
 
+            }
+        })
+            .then(response => {
+              this.setState({
+                  data1: response.data["res"]
+              })
 
-            this.setState({
-                data: resp["res"]
+              //console.log(response.data["res"]);
+            })
+            .catch(error => {
+                if(error['message']==="Network Error") {
+                    localStorage.clear()
+                    alert("Your session has expired! Log in again...")
+                    this.props.history.push('/login/company')
+                }
             });
-            // console.log(resp.res);
-        });
     }
-
-
-
     render(){
+        var question = [];
+        var answer = new Array();
+        answer[0] = new Array();
+        answer[1] = new Array();
+        answer[2] = new Array();
+        answer[3] = new Array();
+        answer[4] = new Array();
+        answer[5] = new Array();
+        answer[6] = new Array();
+        answer[7] = new Array();
+        answer[8] = new Array();
 
-        var question1=this.state.data[0];
-        var ans11=this.state.data[1];
-        var ans12=this.state.data[2];
-        var ans13=this.state.data[3];
-        var ans14=this.state.data[4];
-        var question2=this.state.data[5];
-        var ans21=this.state.data[6];
-        var ans22=this.state.data[7];
-        var ans23=this.state.data[8];
-        var ans24=this.state.data[9];
-        // var data2 = data1[0];
-        // var data3 = data1.responseText;
-        // var data3 = data2["answer"]
-        // console.log(data1)
+        // var ans[] =new Array;
+        for(var i =0;i<this.state.data1.length;i++)
+        {
+          //  answer[i] = new Array();
+            question[i] = this.state.data1[i]["question"];
+            for(var j =0;j<this.state.data1[i]["answer"].length;j++)
+            {
+                answer[i][j] = this.state.data1[i]["answer"][j];
+            }
+        }
+
+    console.log(answer[0][0])
+
+        //}
+
+        //
+        // var question1=this.state.data[0];
+        // var ans11=this.state.data[1];
+        // var ans12=this.state.data[2];
+        // var ans13=this.state.data[3];
+        // var ans14=this.state.data[4];
+        // var question2=this.state.data[5];
+        // var ans21=this.state.data[6];
+        // var ans22=this.state.data[7];
+        // var ans23=this.state.data[8];
+        // var ans24=this.state.data[9];
+
+            return <div>
+                {for(var k = 0; k < question.length;k++)
+                {
+                    <h2>1){answer.length} {question[0]}</h2>
+                    <form action="">
+                    A. <input className="answer" type="checkbox" name="" id=""/>{answer[0][0]}<br/>
+                    B. <input className="answer" type="checkbox" name="" id=""/>{answer[0][1]}<br/>
+                    C. <input className="answer" type="checkbox" name="" id=""/>{answer[0][2]}<br/>
+                    D. <input className="answer" type="checkbox" name="" id=""/>{answer[0][3]}<br/>
+                    <input type="checkbox"/>Done &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input type="checkbox"/>Check Again
+
+                {/*<h2>2) {question[1]}</h2>*/}
+                {/*A. <input className="answer" type="checkbox" name="" id=""/>{answer[1][0]}<br/>*/}
+                {/*B. <input className="answer" type="checkbox" name="" id=""/>{answer[1][1]}<br/>*/}
+                {/*C. <input className="answer" type="checkbox" name="" id=""/>{answer[1][2]}<br/>*/}
+                {/*D. <input className="answer" type="checkbox" name="" id=""/>{answer[1][3]}<br/>*/}
 
 
-        return(
-           <div>
-                <h2>1) {question1}</h2>
-               <form action="">
-               A. <input className="answer" type="checkbox" name="" id=""/>{ans11}<br/>
-               B. <input className="answer" type="checkbox" name="" id=""/>{ans12}<br/>
-               C. <input className="answer" type="checkbox" name="" id=""/>{ans13}<br/>
-               D. <input className="answer" type="checkbox" name="" id=""/>{ans14}<br/>
-
-               <h2>2) {question2}</h2>
-                   A. <input className="answer" type="checkbox" name="" id=""/>{ans21}<br/>
-                   B. <input className="answer" type="checkbox" name="" id=""/>{ans22}<br/>
-                   C. <input className="answer" type="checkbox" name="" id=""/>{ans23}<br/>
-                   D. <input className="answer" type="checkbox" name="" id=""/>{ans24}<br/>
+                    </form>
+                }
+                }
 
 
-               </form>
-
-               <div className="main-header">
-                   <div className="inner">
-                       {
-                           /*this.state.data.map((examData,key) =>
-                           <div>
-                               {}
-                           </div>
-                           )*/
-                       }
-                   </div>
-               </div>
-
-
-               {/*<form action="">*/}
-                    {/*A  <input type="checkbox" name=""/> An explicit deny does not override an explicit allow <br/>*/}
-                    {/*B  <input type="checkbox" name=""/> An explicit deny does not override an explicit allow <br/>*/}
-                  {/*C  <input type="checkbox" name=""/> An explicit deny does not override an explicit allow <br/>*/}
-                  {/*D  <input type="checkbox" name=""/> An explicit deny does not override an explicit allow <br/>*/}
-                {/*<br/>*/}
-                    {/*<a href="../components/Question1.js"><input type="submit" value="preview"/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-                    {/*</a>*/}
-                    {/*&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
-                    {/*<input type="submit" value="next"/>*/}
-                {/*</form>*/}
             </div>
-        )
-    }
+        }
+
+
 }
 

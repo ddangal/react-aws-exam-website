@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import './App.css';
 import Index from "./components/Index"
 import Question from "./components/Question"
-import Check from "./components/Check"
+import Checkbox from "./components/Checkbox"
+import Application from "./components/Application"
+import Check1 from "./components/Check1"
+import NormalMethod from "./components/NormalMethod";
 
 class App extends Component {
     render() {
@@ -13,7 +16,7 @@ class App extends Component {
                         <Index/>
                     </div>
                     <div className="top-weekly">
-                        <Check/>
+                        <Question/>
                     </div>
                 </div>
 
