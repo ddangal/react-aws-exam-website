@@ -4,8 +4,9 @@ import Index from "./components/Index"
 import Question from "./components/Question"
 import Checkbox from "./components/Checkbox"
 import Application from "./components/Application"
-import Check1 from "./components/Check1"
+// import Check from "./components/Check"
 import NormalMethod from "./components/NormalMethod";
+import Check from "./components/Check";
 
 class App extends Component {
     render() {

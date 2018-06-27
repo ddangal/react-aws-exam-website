@@ -50,6 +50,9 @@ export default class Check extends Component {
                         C <input type="checkbox" value="13" onChange={this.onChange.bind(this)} />
                         <label>Answer C</label>
                     </div>
+                    <button onClick={
+                        console.log(this.state.options)
+                    }> click</button>
 
 
                     <br/>
