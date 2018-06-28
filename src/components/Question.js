@@ -7,15 +7,40 @@ export default class Enter_daily extends Component {
         this.state = {
             data1:[],
             options: [],
-            disabled:false
-        }
-        ;
+            disabled:false,
+            check:[]
+
+        };
+        this.handleCheck=this.handleCheck.bind(this)
     }
 
     toggle = () => {
         this.setState((state) =>({
             disabled: !state.disabled,
         }));
+    }
+    handleCheck(i, event){
+        event.preventDefault()
+        var list=this.state.check
+        list.push(i)
+        this.setState({
+            check:list
+        });
+    }
+
+    handleSubmit = event => {
+        event.preventDefault();
+
+        const user = {
+            name: this.state.options
+        };
+
+        axios.post("https://4llde0crl6.execute-api.us-east-1.amazonaws.com/weekly-search/weekly", { user: user })
+            .then(res => {
+                alert("vayo yar");
+                console.log(res);
+                console.log(res.data);
+            })
     }
 
     componentDidMount()
@@ -68,17 +93,12 @@ export default class Enter_daily extends Component {
     render(){
         var question = [];
         var answer = new Array();
-        answer[0] = new Array();
-        answer[1] = new Array();
-        answer[2] = new Array();
-        answer[3] = new Array();
-        answer[4] = new Array();
-        answer[5] = new Array();
-        answer[6] = new Array();
-        answer[7] = new Array();
-        answer[8] = new Array();
+        for(var l = 0; l<this.state.data1.length;l++)
+        {
+            answer[l] = new Array();
+        }
 
-        // var ans[] =new Array;
+
         for(var i =0;i<this.state.data1.length;i++)
         {
             //  answer[i] = new Array();
@@ -88,11 +108,11 @@ export default class Enter_daily extends Component {
                 answer[i][j] = this.state.data1[i]["answer"][j];
             }
         }
-
         var list=[]
         console.log(this.state.options)
         for(var i=0;i<this.state.data1.length;i++){
             var ansdeep=[]
+            let click=this.handleCheck.bind(this, i)
             for(var j=0;j<answer[i].length;j++){
                 var val = i+1;
                 var val1 = j+1;
@@ -105,14 +125,18 @@ export default class Enter_daily extends Component {
 
             }
             list.push(
+
                 <div>
-                    <h2>{i+1}) {question[i]}</h2>
-                    {ansdeep}
+                    <div>
+                        <h2 className={
+                            (this.state.check.includes(i) ? "checkbox" : "")
+                        }>{i+1}) {question[i]}</h2>
+                        {ansdeep}
 
-                    <hr/>
-
-                    <button onClick={this.toggle}>Done</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input type="checkbox"/>Check Again
+                        <hr/>
+                    </div>
+                    <button  onClick={this.toggle}>Done</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input onChange={click} type="checkbox"/>Check Again
 
                 </div>
 
@@ -120,10 +144,18 @@ export default class Enter_daily extends Component {
         }
 
         return <div>
-            <form action="">
-                {list}
-            </form>
-            }
+            {list}
+            <hr/>
+            <h4 className="SubmitValue">You are at the end... Please Review all before submitting it.</h4>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <button onClick={this.handleSubmit} className="SubmitValue">SUBMIT</button>
+
 
 
         </div>

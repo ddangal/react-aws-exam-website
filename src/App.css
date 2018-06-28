@@ -43,3 +43,10 @@ form{
   padding: 2%;
   float: bottom;
 }
+.checkbox{
+  background-color: #ba9bff;
+}
+.SubmitValue{
+    text-align: center;
+
+}

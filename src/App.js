@@ -7,6 +7,7 @@ import Application from "./components/Application"
 // import Check from "./components/Check"
 import NormalMethod from "./components/NormalMethod";
 import Check from "./components/Check";
+import SendData from "./components/SendData"
 
 class App extends Component {
     render() {
@@ -14,7 +15,7 @@ class App extends Component {
             <div>
                 <div className="top-header">
                     <div className="top-daily">
-                        <Index/>
+                        <SendData/>
                     </div>
                     <div className="top-weekly">
                         <Question/>
