@@ -7,10 +7,11 @@ export default class Enter_daily extends Component {
         super();
         this.state = {
             data1:[],
-            options: [],
+            options:{} ,
             disabled:false,
             check:[],
-            complete: false
+            complete: false,
+            info:''
 
         };
         this.handleCheck=this.handleCheck.bind(this)
@@ -33,20 +34,26 @@ export default class Enter_daily extends Component {
 
     handleSubmit = event => {
         event.preventDefault();
-
+        this.setState({
+            info:"Please Wait..."
+        })
         const user = {
-            name: this.state.options
-        };
+            name: this.state.options,
+            questionnumber:this.state.data1.length
+    };
 
-        axios.post("https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web", { user: user })
+        axios.post("https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web", { user: user})
             .then(res => {
                 sweetAlert("Result:\n\n" +
-                    "Total Number of Questions: 9 \n\n" +
+                    "Total Number of Questions:  "+this.state.data1.length+"\n\n" +
                     "Total Correct Answers: " +res.data+
                     "\n\n Total Wrong Answers: " + (9-res.data)+
                     "");
                 console.log(res);
                 console.log(res.data);
+                this.setState({
+                    info:"Successfully submited"
+                })
             })
     }
 
@@ -55,23 +62,41 @@ export default class Enter_daily extends Component {
         this.fetchdata()
     }
 
-    onChange(e) {
+    onChange(i, e) {
         // current array of options
-        const options = this.state.options
+        const options1 = this.state.options
         let index
 
         // check if the check box is checked or unchecked
         if (e.target.checked) {
             // add the numerical value of the checkbox to options array
-            options.push(+e.target.value)
+            var pre=options1[i+1]
+            var q=(i+1).toString()
+            if(pre===undefined) {
+                var new1=[]
+                new1.push(e.target.value)
+                options1[q] = new1
+            }
+            else{
+                var new1=pre
+                new1.push(e.target.value)
+                options1[q]=new1
+            }
+
+
+            //pre.push(e.target.value)
+            //options1[i+1]=pre
+
+
         } else {
             // or remove the value from the unchecked checkbox from the array
-            index = options.indexOf(+e.target.value)
-            options.splice(index, 1)
+            index = options1.indexOf(+e.target.value)
+            options1.splice(index, 1)
         }
 
         // update the state with the new array of options
-        this.setState({ options: options })
+        this.setState({ options: options1 })
+        console.log(this.state.options)
 
 
     }
@@ -90,11 +115,7 @@ export default class Enter_daily extends Component {
                 //console.log(response.data["res"]);
             })
             .catch(error => {
-                if(error['message']==="Network Error") {
-                    localStorage.clear()
-                    alert("Your session has expired! Log in again...")
-                    this.props.history.push('/login/company')
-                }
+
             });
     }
     render(){
@@ -116,17 +137,17 @@ export default class Enter_daily extends Component {
             }
         }
         var list=[]
-        console.log(this.state.options)
+        //console.log(this.state.options)
         for(var i=0;i<this.state.data1.length;i++){
             var ansdeep=[]
             let click=this.handleCheck.bind(this, i)
             for(var j=0;j<answer[i].length;j++){
-                var val = i+1;
+                //var val = i+1;
                 var val1 = j+1;
-                console.log();
+                //console.log();
                 ansdeep.push(
                     <div>
-                        <input value={""+val+""+val1} onChange={this.onChange.bind(this)}  className="answer" type="checkbox" disabled={this.state.disabled}/> {answer[i][j]}<br/>
+                        <input value={val1} onChange={this.onChange.bind(this, i)}  className="answer" type="checkbox" disabled={this.state.disabled}/> {answer[i][j]}<br/>
                     </div>
                 );
 
@@ -167,6 +188,7 @@ export default class Enter_daily extends Component {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <button onClick={this.handleSubmit} className="SubmitValue">SUBMIT</button>
+            <h2>{this.state.info}</h2>
 
 
 
