@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-var api = "https://d2t46sp5qi.execute-api.us-east-1.amazonaws.com/retrieve-weekly/retrieve-weekly"
+import sweetAlert from 'sweetalert'
+var api = "https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web"
 export default class Enter_daily extends Component {
     constructor() {
         super();
@@ -8,7 +9,8 @@ export default class Enter_daily extends Component {
             data1:[],
             options: [],
             disabled:false,
-            check:[]
+            check:[],
+            complete: false
 
         };
         this.handleCheck=this.handleCheck.bind(this)
@@ -28,6 +30,7 @@ export default class Enter_daily extends Component {
         });
     }
 
+
     handleSubmit = event => {
         event.preventDefault();
 
@@ -35,9 +38,13 @@ export default class Enter_daily extends Component {
             name: this.state.options
         };
 
-        axios.post("https://4llde0crl6.execute-api.us-east-1.amazonaws.com/weekly-search/weekly", { user: user })
+        axios.post("https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web", { user: user })
             .then(res => {
-                alert("vayo yar");
+                sweetAlert("Result:\n\n" +
+                    "Total Number of Questions: 9 \n\n" +
+                    "Total Correct Answers: " +res.data+
+                    "\n\n Total Wrong Answers: " + (9-res.data)+
+                    "");
                 console.log(res);
                 console.log(res.data);
             })
@@ -130,12 +137,17 @@ export default class Enter_daily extends Component {
                     <div>
                         <h2 className={
                             (this.state.check.includes(i) ? "checkbox" : "")
-                        }>{i+1}) {question[i]}</h2>
+
+                        }>
+                            {i+1}) {question[i]}
+                           </h2>
                         {ansdeep}
 
                         <hr/>
                     </div>
-                    <button  onClick={this.toggle}>Done</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {/*<button  onClick={this.toggle}>Done</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    {/*<input onChange={click1} type="checkbox"/>Done*/}
                     <input onChange={click} type="checkbox"/>Check Again
 
                 </div>
@@ -146,7 +158,7 @@ export default class Enter_daily extends Component {
         return <div>
             {list}
             <hr/>
-            <h4 className="SubmitValue">You are at the end... Please Review all before submitting it.</h4>
+            <h2 className="SubmitValue">You are at the end... Please Review all before submitting it.</h2>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

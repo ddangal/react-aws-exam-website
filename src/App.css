@@ -46,7 +46,13 @@ form{
 .checkbox{
   background-color: #ba9bff;
 }
+.checkbox{
+    background-color: #c6f8ff;
+}
 .SubmitValue{
     text-align: center;
 
+}
+.top_file{
+  text-align: center;
 }

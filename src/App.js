@@ -15,7 +15,7 @@ class App extends Component {
             <div>
                 <div className="top-header">
                     <div className="top-daily">
-                        <SendData/>
+                        <Index/>
                     </div>
                     <div className="top-weekly">
                         <Question/>
