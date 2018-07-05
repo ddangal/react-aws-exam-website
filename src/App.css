@@ -5,8 +5,6 @@
   border: 1px solid #eee;
   box-shadow: 0 2px 2px #ccc;
   width: 100%;
-  margin:1%;
-  padding: 1%;
   height:100px;
   float: left;
 }
@@ -14,16 +12,14 @@
   border: 1px solid #eee;
   box-shadow: 0 2px 2px #ccc;
   width: 100%;
-  margin:1%;
-  padding: 1%;
   height:1000px;
   float: left;
 }
 body{
-  background-color: burlywood;
 }
 h2{
-  text-decoration: underline;
+  margin-top:0px;
+  margin-left:10px;
 }
 form{
   margin:2px;
@@ -39,7 +35,7 @@ form{
   font-size: 20px;
 }
 .answer{
-  margin:2%;
+  margin:1%;
   padding: 2%;
   float: bottom;
 }
@@ -55,4 +51,15 @@ form{
 }
 .top_file{
   text-align: center;
+}
+
+.bg_color_grey{
+  background-color: lightgrey;
+}
+.bg_color_white{
+  background-color: #e1e1e1;
+}
+.checkagain_button{
+  margin-left: 13px;
+  font-size: 15px;
 }

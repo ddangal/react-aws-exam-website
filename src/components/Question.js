@@ -47,7 +47,7 @@ export default class Enter_daily extends Component {
                 sweetAlert("Result:\n\n" +
                     "Total Number of Questions:  "+this.state.data1.length+"\n\n" +
                     "Total Correct Answers: " +res.data+
-                    "\n\n Total Wrong Answers: " + (9-res.data)+
+                    "\n\n Total Wrong Answers: " + (this.state.data1.length-res.data)+
                     "");
                 console.log(res);
                 console.log(res.data);
@@ -66,14 +66,15 @@ export default class Enter_daily extends Component {
         // current array of options
         const options1 = this.state.options
         let index
-
+        var q=(i+1).toString()
+        var new1=[]
         // check if the check box is checked or unchecked
         if (e.target.checked) {
             // add the numerical value of the checkbox to options array
             var pre=options1[i+1]
-            var q=(i+1).toString()
+
             if(pre===undefined) {
-                var new1=[]
+
                 new1.push(e.target.value)
                 options1[q] = new1
             }
@@ -82,16 +83,14 @@ export default class Enter_daily extends Component {
                 new1.push(e.target.value)
                 options1[q]=new1
             }
+        }
+        else {
+            new1 = options1[i+1].indexOf(e.target.value)
+            options1[i+1].splice(new1, 1)
 
-
-            //pre.push(e.target.value)
-            //options1[i+1]=pre
-
-
-        } else {
             // or remove the value from the unchecked checkbox from the array
-            index = options1.indexOf(+e.target.value)
-            options1.splice(index, 1)
+            // index = options1.indexOf(+e.target.value)
+            // options1.splice(index, 1)
         }
 
         // update the state with the new array of options
@@ -153,23 +152,22 @@ export default class Enter_daily extends Component {
 
             }
             list.push(
-
-                <div>
+                <div className={ (i%2 ==0)?"bg_color_grey":"bg_color_white"}>
                     <div>
                         <h2 className={
                             (this.state.check.includes(i) ? "checkbox" : "")
 
                         }>
-                            {i+1}) {question[i]}
+                            {i+1}. {question[i]}
                            </h2>
                         {ansdeep}
-
+                        <button className="checkagain_button">Check Again</button>
                         <hr/>
                     </div>
                     {/*<button  onClick={this.toggle}>Done</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*/}
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     {/*<input onChange={click1} type="checkbox"/>Done*/}
-                    <input onChange={click} type="checkbox"/>Check Again
+                    {/*<input onChange={click} type="checkbox"/>Check Again*/}
 
                 </div>
 
