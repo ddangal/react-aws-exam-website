@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import sweetAlert from 'sweetalert'
+import { confirmAlert } from 'react-confirm-alert'; // Import
+import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 var post_api = "https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web"
-var get_api = "https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web"
+// var get_api = "https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web"
+var get_api = "https://0mbjzz7yd9.execute-api.us-east-1.amazonaws.com/exam-backend/examsite-backend"
 export default class Enter_daily extends Component {
     constructor() {
         super();
@@ -27,6 +30,23 @@ export default class Enter_daily extends Component {
             check:list
         });
     }
+    submit = (event) => {
+        confirmAlert({
+            title: 'Confirm to submit',
+            message: 'Are you sure to do this.',
+            buttons: [
+                {
+                    label: 'Yes',
+                    onClick: () => this.handleSubmit(event)
+                },
+                {
+                    label: 'No',
+                    onClick: () => ""
+                }
+            ]
+        })
+    };
+
     handleSubmit = event => {
         event.preventDefault();
         this.setState({
@@ -48,7 +68,7 @@ export default class Enter_daily extends Component {
                 console.log(res);
                 console.log(res.data);
                 this.setState({
-                    info:"Successfully submited"
+                    info:""
                 })
             })
     }
@@ -165,7 +185,7 @@ export default class Enter_daily extends Component {
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <h2>{this.state.info}</h2>
             <div className="SubmitValue">
-            <button onClick={this.handleSubmit} className="SubmitValue">SUBMIT</button>
+            <button onClick={this.submit} className="SubmitValue">SUBMIT</button>
             </div>
         </div>
     }
