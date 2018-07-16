@@ -4,20 +4,23 @@ import sweetAlert from 'sweetalert'
 import { confirmAlert } from 'react-confirm-alert'; // Import
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 var post_api = "https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web"
-// var get_api = "https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web"
-var get_api = "https://0mbjzz7yd9.execute-api.us-east-1.amazonaws.com/exam-backend/examsite-backend"
+var get_api = "https://ujai96180i.execute-api.us-east-1.amazonaws.com/web-exam/exam-web"
+// var get_api = "https://0mbjzz7yd9.execute-api.us-east-1.amazonaws.com/exam-backend/examsite-backend"
 export default class Enter_daily extends Component {
     constructor() {
         super();
         this.state = {
             fetched_data:[],
             user_answer:{} ,
+            correct_answer:{},
             disabled:false,
             check:[],
             complete: false,
             info:'',
             black: true,
-            checkAgainIndex:0
+            checkAgainIndex:0,
+            answer_color:'',
+            answersubmitted:false
 
         };
         this.handleCheck=this.handleCheck.bind(this)
@@ -62,14 +65,37 @@ export default class Enter_daily extends Component {
             .then(res => {
                 sweetAlert("Result:\n\n" +
                     "Total Number of Questions:  "+this.state.fetched_data.length+"\n\n" +
-                    "Total Correct Answers: " +res.data+
-                    "\n\n Total Wrong Answers: " + (this.state.fetched_data.length-res.data)+
+                    "Total Correct Answers: " +res.data['0']+
+                    "\n\n Total Wrong Answers: " + (this.state.fetched_data.length-res.data['0'])+
                     "");
-                console.log(res);
-                console.log(res.data);
+                // console.log(res.data[1]);
+                //console.log(res.data[1][1][0]);
+                // console.log(res.data[1][1][0]);
+                //
                 this.setState({
-                    info:""
+
+                    correct_answer: res.data[1],
+                    info:"",
+                    answersubmitted:true
                 })
+                var correct_ans_length = res.data[2];
+
+                // for(var i =1;i<=correct_ans_length;i++){
+                //     if(this.state.user_answer[i] != null){
+                //         this.setState({
+                //             user_answer:this.state.user_answer[i].sort()
+                //         })
+                //         // console.log(this.state.user_answer[i+1].sort());
+                //     }
+                //
+                // }
+
+                //this.state.correct_answer = res.data[1];
+
+                // console.log(this.state.user_answer);
+                // console.log(this.state.correct_answer[1].length);
+                //console.log(this.state.correct_answer[1][0])
+
             })
     }
 
@@ -80,6 +106,7 @@ export default class Enter_daily extends Component {
 
     onChange(i, e) {
         // current array of user_answer
+
         const user_answer1 = this.state.user_answer
         let index
         var q=(i+1).toString()
@@ -107,17 +134,19 @@ export default class Enter_daily extends Component {
 
         // update the state with the new array of user_answer
         this.setState({ user_answer: user_answer1 })
-        console.log(this.state.user_answer)
+        // console.log(this.state.user_answer)
 
 
     }
     changeColor(i){
         this.setState({black: !this.state.black})
-        console.log(i);
+        // console.log(i);
         this.setState({checkAgainIndex:i})
     }
 
     fetchdata(){
+
+
         axios.get(post_api, {
             params: {
 
@@ -146,17 +175,52 @@ export default class Enter_daily extends Component {
                 answer[i][j] = this.state.fetched_data[i]["answer"][j];
             }
         }
+        // console.log(this.state.correct_answer);
         var list=[]
+
         for(var i=0;i<this.state.fetched_data.length;i++){
             var ansdeep=[]
             let click=this.handleCheck.bind(this, i)
             for(var j=0;j<answer[i].length;j++){
                 var val1 = j+1;
-                ansdeep.push(
-                    <div>
-                        <input value={val1} onChange={this.onChange.bind(this, i)}  className="answer" type="checkbox" disabled={this.state.disabled}/> {answer[i][j]}<br/>
-                    </div>
-                );
+                if(this.state.answersubmitted){
+                    // console.log("this is here")
+                    // console.log(this.state.correct_answer[i+1][j])
+                    var correct=false;
+                    var user_ans_correct = false;
+                    for(var k =0;k<this.state.correct_answer[i+1].length;k++){
+                        if(val1 == this.state.correct_answer[i+1][k]) {
+                            correct=true
+                        }
+
+                    }
+
+                    // console.log(this.state.user_answer[i+1].length)
+                    if(this.state.user_answer[i+1]!= null){
+                        for(var l =0;l<this.state.user_answer[i+1].length;l++){
+                            if(val1 == this.state.user_answer[i+1][l]) {
+                                user_ans_correct=true
+                            }
+
+                        }
+                    }
+
+                    ansdeep.push(
+                        <div className={(correct)?"green":(user_ans_correct)?"red":"answer"}>
+                            <input value={val1} onChange={this.onChange.bind(this, i)} type="checkbox" disabled={this.state.disabled}/> {answer[i][j]}
+                        </div>
+                    );
+
+                }
+
+                else{
+                    ansdeep.push(
+                        <div className="answer">
+                            <input value={val1} onChange={this.onChange.bind(this, i)} type="checkbox"
+                                   disabled={this.state.disabled}/> {answer[i][j]}
+                        </div>
+                    );
+                }
             }
             let btn_class = this.state.black ? "" : "checkagainButton";
             list.push(
@@ -172,10 +236,10 @@ export default class Enter_daily extends Component {
                 </div>
             )
         }
-        return <div className="">
+        return <div className="bottom-header">
             {list}
             <hr/>
-            <h2 className="SubmitValue">You are at the end... Please Review all before submitting it.</h2>
+            <h3 className="SubmitValue">You are at the end... Please Review all before submitting it.</h3>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

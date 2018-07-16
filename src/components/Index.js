@@ -1,12 +1,15 @@
+import logo from '../logo.png';
 import React, { Component } from 'react';
 
 
 export default class Index extends Component {
     render(){
         return(
-            <div className="top_heading">
-                <h1 className="top_file">Welcome to AWS Developer Associate Exam</h1>
-                <h5 className="top_file">(All question are Multi Choice question. You need to correct at least 70% questions)</h5>
+            <div className="App">
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo" />
+                    <h1 className="App-title">Welcome to AWS Developer Certified Associate Exam</h1>
+                </header>
             </div>
         )
 
